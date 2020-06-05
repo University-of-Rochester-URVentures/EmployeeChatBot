@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Employee Self Screen</title>
+    <link rel="stylesheet" href="~/lib/fomantic-UI/semantic.min.css" />
+    <link rel="stylesheet" href="~/lib/core/css/core.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+    </header>
+    <div class="ui fluid container">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="">
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/fomantic-UI/semantic.min.js"></script>
+    <script src="~/lib/font-awesome/js/fontawesome-all.min.js"></script>
+    <script src="~/lib/core/js/core.min.js"></script>
+    <script src="~/js/site.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

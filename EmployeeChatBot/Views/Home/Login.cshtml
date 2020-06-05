@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+@model LoginViewModel
+<div class="ui fluid blue horizontal card">
+    <div class="image">
+        <img src="~/images/URMCLogo.png">
+    </div>
+    <div class="content">
+        <div class="header">Employee Health Monitoring</div>
+    </div>
+</div>
+<div class="ui raised text container segment">
+    <p>Welcome to the University of Rochester Medical Center's Employee Health Monitoring system.</p>
+    <p>For your security, please sign in below.</p>
+    <div class="ui divider"></div>
+    <form class="ui form" asp-action="Login" asp-controller="Home" method="post">
+        <div class="required field">
+            <label>Username</label>
+            <input type="text" name="Username" placeholder="Username">
+        </div>
+        <div class="required field">
+            <label>Password</label>
+            <input type="password" name="Password" placeholder="Password">
+        </div>
+        <div class="field">
+            <label>Account Type</label>
+            <select class="ui dropdown" name="Domain">
+                <option value="URMC">URMC</option>
+                <option value="UR">UR</option>
+            </select>
+        </div>
+        <button class="ui button" type="submit">Submit</button>
+    </form>
+</div>
+
+<div class="ui fullscreen modal" id="AccountNotFound">
+    <div class="header">Account Not Found</div>
+    <div class="content" style="text-align: center;">
+        <div class="ui negative message">
+            <div class="header">
+                An account was not found with this username and password. Please try again.
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="ui fullscreen modal" id="MissingFields">
+    <div class="header">Missing Fields</div>
+    <div class="content" style="text-align: center;">
+        <div class="ui negative message">
+            <div class="header">
+                Please input a Username and Password to login.
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="ui fullscreen modal" id="AccountError">
+    <div class="header">Missing Fields</div>
+    <div class="content" style="text-align: center;">
+        <div class="ui negative message">
+            <div class="header">
+                Account found but missing necessary information!
+            </div>
+            <div class="content">
+                We were able to locate your account however it did not have necessary identifying information associated with it (a valid Email or UR ID).
+                <br />
+                Without these fields this system cannot operate.
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+<script>
+    $(document).ready(function () {
+        $('.selection.dropdown').dropdown();
+
+        @if(Model.FailedLogin)
+        {
+            <text>
+                $('#AccountNotFound')
+                    .modal({
+                        closable: true
+                    }).modal('show');
+            </text>
+        }
+
+        @if(Model.ValidationFailure)
+        {
+            <text>
+                $('#MissingFields')
+                    .modal({
+                        closable: true
+                    }).modal('show');
+            </text>
+        }
+
+         @if(Model.UnknownFailure)
+        {
+            <text>
+                $('#AccountError')
+                    .modal({
+                        closable: true
+                    }).modal('show');
+            </text>
+        }
+    });
+</script>
+}

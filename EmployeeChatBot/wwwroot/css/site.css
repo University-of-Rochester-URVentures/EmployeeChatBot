@@ -1,0 +1,251 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+.ui.segment[class*="bottom attached"]:last-child {
+    margin-bottom: 0;
+}
+
+.ui.comments .comment .avatar {
+    width: 5em;
+}
+
+.ui.comments .comment {
+    min-width: 96vw;
+}
+
+.ui.comments .comment > .avatar ~ .content {
+    margin-left: 6em;
+    min-height: 4em;
+}
+
+.ui.card > .image, .ui.cards > .card > .image {
+    background: none;
+}
+
+.ui.card.horizontal > .image, .ui.horizontal.cards > .card > .image {
+    max-width: 16rem;
+    max-height: 5rem;
+}
+
+.bot-message {
+    padding-left: 15px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.container-fluid {
+    padding: 0;
+}
+
+body {
+    font-size: 16px !important;
+    margin: 0;
+}
+
+.ui.input {
+    font-size: 16px;
+}
+
+input, textarea {
+    font-size: inherit;
+}
+
+#ChatCard {
+    width: 100vw;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+}
+
+/* Checkmark CSS */
+.circle-loader {
+    margin: 0 0 30px 10px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-left-color: #228ae6;
+    animation-name: loader-spin;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+}
+
+    .circle-loader,
+    .circle-loader:after {
+        border-radius: 50%;
+        width: 8em;
+        height: 8em;
+    }
+
+.ui.selection.dropdown .menu {
+    max-height: unset;
+}
+
+.checkmark {
+    display: none;
+}
+
+.ui.inverted.blue.segment.segment.segment.segment.segment {
+    background-color: #00467f;
+}
+
+.checkmark.draw:after {
+    animation-duration: 1.2s;
+    animation-timing-function: ease;
+    animation-name: checkmark;
+    transform: scaleX(-1) rotate(135deg);
+}
+
+    .checkmark:after {
+        opacity: 1;
+        height: 4em;
+        width: 2em;
+        transform-origin: left top;
+        border-right: 2px solid #396f3a;
+        border-top: 2px solid #396f3a;
+        content: '';
+        left: 2em;
+        top: 4em;
+        position: absolute;
+    }
+
+.load-failure:before, .load-failure:after {
+    display: block;
+    content: "";
+    height: 2px;
+    background: #c92a2a;
+    width: 50%;
+    position: absolute;
+    top: 4em;
+    left: 2em;
+}
+
+.load-failure:before {
+    transform: rotate(45deg);
+}
+
+.load-failure:after {
+    transform: rotate(-45deg);
+}
+
+.load-complete {
+    -webkit-animation: none;
+    animation: none;
+    transition: border 500ms ease-out;
+}
+
+    .load-complete.load-success {
+        border-color: #396f3a;
+    }
+
+    .load-complete.load-failure {
+        border-color: #c92a2a;
+    }
+
+@keyframes loader-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes checkmark {
+    0% {
+        height: 0;
+        width: 0;
+        opacity: 1;
+    }
+
+    20% {
+        height: 0;
+        width: 2em;
+        opacity: 1;
+    }
+
+    40% {
+        height: 4em;
+        width: 2em;
+        opacity: 1;
+    }
+
+    100% {
+        height: 4em;
+        width: 2em;
+        opacity: 1;
+    }
+}
+
+/* End checkmark css*/
+
+.ui.floated.right {
+    float: right;
+}
+
+svg {
+    width: 3rem;
+    height: 1.9rem;
+    display: inline-block;
+}

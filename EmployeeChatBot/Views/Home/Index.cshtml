@@ -1,0 +1,558 @@
+﻿@{
+    ViewData["Title"] = "Screen";
+}
+
+@model IndexViewModel
+
+<div class="" id="ChatCard">
+    <div class="ui top attached segment chat-area" style="overflow-y:scroll; height: 90%;" id="ChatBody">
+        <div class="ui fluid blue horizontal card">
+            <div class="image">
+                <img src="~/images/URMCLogo.png">
+            </div>
+            <div class="content">
+                <div class="header">Employee Health Monitoring</div>
+            </div>
+        </div>
+        <div class="ui fluid comments container" id="ChatArea">
+            <div class="comment" id="question-1">
+                <a class="avatar">
+                    <img src="~/images/@Model.BotImage" alt="Dr. Chat Bot avatar" />
+                </a>
+                <div class="content bot-message">
+                    <a class="author">Dr. Chat Bot</a>
+                    <div class="metadata">
+                        <span class="date"></span>
+                    </div>
+                    <div class="text">
+                        Thank you for logging in!
+                        <br /><br />
+                        Have you had any of these symptoms in the past 24 hours that are new or not usual for you?
+                        <br /><br />
+                        Temperature of 100 &#176;F (37.8 &#176;C) or higher<br />
+                        Cough<br />
+                        Hard time breathing<br />
+                        Sore Throat (not due to allergies)<br />
+                        Body Aches<br />
+                        Loss of taste or smell
+                    </div>
+                </div>
+            </div>
+            <div class="ui hidden" id="response-pending">
+                <svg version="1.1" id="L4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                     viewBox="0 0 100 50" enable-background="new 0 0 0 0" xml:space="preserve">
+                <circle fill="#6e6b6b" stroke="none" cx="6" cy="50" r="6">
+                <animate attributeName="opacity"
+                         dur="1s"
+                         values="0;1;0"
+                         repeatCount="indefinite"
+                         begin="0.1" />
+
+                    </circle>
+                <circle fill="#6e6b6b" stroke="none" cx="26" cy="50" r="6">
+                <animate attributeName="opacity"
+                         dur="1s"
+                         values="0;1;0"
+                         repeatCount="indefinite"
+                         begin="0.2" />
+
+                    </circle>
+                <circle fill="#6e6b6b" stroke="none" cx="46" cy="50" r="6">
+                <animate attributeName="opacity"
+                         dur="1s"
+                         values="0;1;0"
+                         repeatCount="indefinite"
+                         begin="0.3" />
+
+                    </circle>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div class="ui bottom attached inverted blue segment" style="height: 10%;">
+        <div class="ui fluid action input hidden" id="SymptomSelectionContainer">
+            <select name="skills" multiple="" class="ui fluid dropdown" id="Symptoms">
+                <option value="" disabled>Symptoms</option>
+                <option value="Temperature of 100F or higher">Temperature of 100 &#176;F (37.8 &#176;C) or higher</option>
+                <option value="Cough">Cough</option>
+                <option value="Hard Time Breathing">Hard Time Breathing</option>
+                <option value="Sore Throat">Sore Throat (not due to allergies)</option>
+                <option value="Body Aches">Body Aches</option>
+                <option value="Loss of taste or smell">Loss of taste or smell</option>
+            </select>
+            <button class="ui icon button" id="SendSymptoms">
+                <i class="paper plane icon"></i>
+            </button>
+        </div>
+        <div class="ui fluid buttons" id="ButtonEntryContainer">
+            <button class="ui inverted button" id="YesAnswer" aria-label="Respond yes">Yes</button>
+            <div class="Or"></div>
+            <button class="ui inverted button" id="NoAnswer" aria-label="Respond no">No</button>
+        </div>
+    </div>
+</div>
+
+<div id="QuestionContainer" class="hidden">
+
+    <div class="comment hidden" id="question-2">
+        <a class="avatar">
+            <img src="~/images/@Model.BotImage" alt="Dr. Chat Bot avatar" />
+        </a>
+        <div class="content bot-message">
+            <a class="author">Dr. Chat Bot</a>
+            <div class="metadata">
+                <span class="date"></span>
+            </div>
+            <div class="text">
+                Okay, please select any symptoms you have from the list below. You can choose all that apply.
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="hidden user-message" id="UserMessageTemplate">
+    <div class="ui divider">
+
+    </div>
+    <div class="ui green label">
+    </div>
+    <div class="ui divider">
+
+    </div>
+</div>
+
+<div class="ui fullscreen modal" id="PositiveScreen">
+    <div class="header">Attention!</div>
+    <div class="content" style="text-align: center;">
+        <div class="ui centered circle-loader" id="PositiveScreenCheckmark">
+            <div class="checkmark draw" id="NegativeMark"></div>
+        </div>
+        <div class="ui error message">
+            <div class="header">
+                Do NOT report to work!
+                <br />
+                Call Employee Health at 585-275-6040 and notify your supervisor.
+            </div>
+            <p>Report generated on <strong id="PositiveReportDate">@DateTime.Today.ToString("D")</strong></p>
+        </div>
+    </div>
+</div>
+
+<div class="ui fullscreen modal" id="NegativeScreen">
+    <div class="header">Thank you!</div>
+    <div class="content" style="text-align: center;">
+        <div class="circle-loader" id="Checkmark">
+            <div class="checkmark draw" id="PositiveCheckmark"></div>
+        </div>
+        <div class="ui positive message">
+            <div class="header">
+                You are clear to go in to work today!
+            </div>
+            <p>If your health changes, please call Employee Health at 585-275-6040 to report your symptoms and discuss next steps.</p>
+            <p>Report generated on <strong id="NegativeReportDate">@DateTime.Today.ToString("D")</strong></p>
+        </div>
+        <div class="ui message">
+            <p>Do you have another health concern? Please contact your primary care provider (PCP).</p>
+            <p>If you need a PCP, please visit the <a href="https://www.urmc.rochester.edu/primary-care.aspx">UR Medicine Primary Care website</a> or call (585) 784-8891 to schedule a new patient visit with one of our primary care offices. Many sites have same-day visits available!</p>
+        </div>
+    </div>
+</div>
+
+<div class="ui fullscreen modal" id="StudentPositiveScreen">
+    <div class="header">Attention!</div>
+    <div class="content" style="text-align: center;">
+        <div class="ui centered circle-loader" id="StudentPositiveScreenCheckmark">
+            <div class="checkmark draw" id="StudentNegativeMark"></div>
+        </div>
+        <div class="ui error message">
+            <div class="header">
+                Do NOT go on campus!
+                <br />
+                Call University Health at 585-275-2662 and notify your supervisor.
+            </div>
+            <p>
+                University Health Hours <br />
+                Monday – Friday:  TBD
+                <br />
+                Saturday and Sunday: TBD
+            </p>
+            <p>Report generated on <strong id="PositiveReportDate">@DateTime.Today.ToString("D")</strong></p>
+        </div>
+    </div>
+</div>
+
+<div class="ui fullscreen modal" id="StudentNegativeScreen">
+    <div class="header">Thank you!</div>
+    <div class="content" style="text-align: center;">
+        <div class="circle-loader" id="StudentCheckmark">
+            <div class="checkmark draw" id="StudentPositiveCheckmark"></div>
+        </div>
+        <div class="ui positive message">
+            <div class="header">
+                You are clear to go on campus today!
+            </div>
+            <p>If your health changes, please call University Health at 585-275-2662 to report your symptoms and discuss next steps.</p>
+            <p>Report generated on <strong id="NegativeReportDate">@DateTime.Today.ToString("D")</strong></p>
+        </div>
+    </div>
+</div>
+
+<div class="ui fullscreen modal" id="ConfirmSymptoms">
+    <div class="header">
+        Double Check!
+    </div>
+    <div class="content">
+        You selected the following symptoms:
+        <div class="ui list" id="SymptomChecklist">
+            <div class="item" id="SymptomChecklistItemTemplate"></div>
+        </div>
+        <br />
+        If this is correct please click "Continue" otherwise click "Start Over".
+    </div>
+    <div class="actions">
+        <div class="ui button reset-symptoms-button">Start Over</div>
+        <div class="ui button submit-report-button">Continue</div>
+
+    </div>
+</div>
+
+<div class="ui fullscreen modal" id="ConfirmNoSymptoms">
+    <div class="header">
+        Double Check!
+    </div>
+    <div class="content">
+        You responded that you have NO symptoms.
+        <br />
+        If this is correct please click "Continue" otherwise click "Start Over".
+    </div>
+    <div class="actions">
+        <div class="ui button reset-symptoms-button">Start Over</div>
+        <div class="ui button submit-report-button">Continue</div>
+    </div>
+</div>
+
+<div class="ui fullscreen modal" id="OutdatedSystem">
+    <div class="header">
+        Please Login!
+    </div>
+    <div class="content">
+        You are required to log in each time you want to take the chat bot. 
+        <br/>
+        Please go back to the <a asp-action="Login">Login Page</a> in order to take your daily screen.
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var question = 1;
+        var reportId = "@Model.ReportId";
+        var symptoms = "";
+
+        $(document).ready(function () {
+            $('.ui.dropdown')
+              .dropdown({
+                  useLabels: false,
+                  direction: 'upward'
+              })
+                ;
+            @if(Model.HasReport) {
+                @if(Model.IsPositiveReport) {
+                    @if(Model.IsStudent)
+                    {
+                        <text>
+                        $('#StudentPositiveScreen')
+                            .modal({
+                                closable: false
+                            }).modal('show');
+                        setTimeout(function () {
+                            $('#StudentPositiveScreenCheckmark').addClass("load-complete load-failure");
+                            $('#StudentNegativeMark').hide();
+                        }, 500);
+                        </text>
+                    } else
+                    {
+                        <text>
+                        $('#PositiveScreen')
+                            .modal({
+                                closable: false
+                            }).modal('show');
+                        setTimeout(function () {
+                            $('#PositiveScreenCheckmark').addClass("load-complete load-failure");
+                            $('#NegativeMark').hide();
+                        }, 500);
+                        </text>
+                    }
+
+                } else {
+                    @if(Model.IsStudent)
+                    {
+                        <text>
+                        $('#StudentNegativeScreen')
+                            .modal({
+                                closable: false
+                            }).modal('show');
+                        setTimeout(function () {
+                            $('#StudentCheckmark').addClass("load-complete load-success");
+                            $('#StudentPositiveCheckmark').show();
+                        }, 500);
+                        </text>
+                    } else
+                    {
+                        <text>
+                        $('#NegativeScreen')
+                            .modal({
+                                closable: false
+                            }).modal('show');
+                        setTimeout(function () {
+                            $('#Checkmark').addClass("load-complete load-success");
+                            $('#PositiveCheckmark').show();
+                        }, 500);
+                        </text>
+                    }
+
+                }
+            } else {
+                <text>
+                if (reportId === "0") {
+                    $("#OutdatedSystem").modal({ closable: false }).modal('show');
+                }
+                </text>
+            }
+
+            
+            var yesOption = document.getElementById("YesAnswer");
+            yesOption.addEventListener("click", function (e) {
+                HandleEntry(1);
+            });
+
+
+            var noOption = document.getElementById("NoAnswer");
+            noOption.addEventListener("click", function (e) {
+                    HandleEntry(0);
+            });
+
+            var $submitSymptoms = $("#SendSymptoms");
+            $submitSymptoms.click(function (e) {
+                var symptoms = $("#Symptoms").dropdown('get value');
+                console.log(symptoms);
+                var joinedString = symptoms.join(", ");
+                HandleEntry(joinedString);
+            });
+
+            var $submitReportButtons = $(".submit-report-button");
+            $submitReportButtons.click(function (e) {
+                if (IsNegativeScreen()) {
+                    SendData();
+                    @if(Model.IsStudent)
+                    {
+                        <text>
+                        $('#StudentNegativeScreen')
+                            .modal({
+                                closable: true
+                            }).modal('show');
+                        setTimeout(function () {
+                            $('#StudentCheckmark').addClass("load-complete load-success");
+                            $('#StudentPositiveCheckmark').show();
+                        }, 500);
+                        </text>
+                    } else {
+                        <text>
+                        $('#NegativeScreen')
+                            .modal({
+                                closable: true
+                            }).modal('show');
+                        setTimeout(function () {
+                            $('#Checkmark').addClass("load-complete load-success");
+                            $('#PositiveCheckmark').show();
+                        }, 500);
+                        </text>
+                    }
+
+                } else {
+                    SendData();
+                    @if(Model.IsStudent)
+                    {
+                        <text>
+                            $('#StudentPositiveScreen')
+                            .modal({
+                                closable: true
+                            }).modal('show');
+                            setTimeout(function () {
+                                $('#StudentPositiveScreenCheckmark').addClass("load-complete load-failure");
+                                $('#StudentNegativeMark').hide();
+                            }, 500);
+                        </text>
+                    } else {
+                        <text>
+                            $('#PositiveScreen')
+                            .modal({
+                                closable: true
+                            }).modal('show');
+                            setTimeout(function () {
+                                $('#PositiveScreenCheckmark').addClass("load-complete load-failure");
+                                $('#NegativeMark').hide();
+                            }, 500);
+                        </text>
+                    }
+                    
+                }
+            });
+
+            var $temperatureSubmit = $("#SendTemperature");
+            $temperatureSubmit.click(function (e) {
+                var temp = $("#TemperatureEntry").val();
+                HandleEntry(temp);
+            });
+
+            var $resetSymptomsButtons = $(".reset-symptoms-button");
+            $resetSymptomsButtons.click(function (e) {
+                $("#ConfirmSymptoms").modal('hide');
+                $("#ConfirmNoSymptoms").modal('hide');
+                $(".selected-symptom").remove();
+                ResetToSymptoms();
+            });
+        });
+
+        function HandleEntry(parsedResponse) {
+            var userResponseValue = "";
+            if (question === 1) {
+                userResponseValue = parsedResponse;
+            } else {
+                if(parsedResponse === 1) {
+                    userResponseValue = "Yes";
+                } else if(parsedResponse === 0) {
+                    userResponseValue = "No";
+                }
+            }
+            
+            var textArea = document.getElementById("ChatArea");
+            var userResponse = document.getElementById("UserMessageTemplate");
+            var responseElement = userResponse.cloneNode(true);
+            var responseTextElement = responseElement.childNodes[3];
+
+            if (question === 1) {
+                if (parsedResponse === 0) {
+                    responseTextElement.innerHTML = userResponseValue;
+                    responseElement.className = "comment user-message symptom-message";
+                    textArea.appendChild(responseElement);
+                    ShowChatBubbles();
+                    ScrollToBottom();
+                    DisableEntry();
+                    $("#ConfirmNoSymptoms").modal({ closable: false }).modal('show');
+                } else {
+                    question++;
+                    responseTextElement.innerHTML = userResponseValue;
+                    responseElement.className = "comment user-message symptom-message";
+                    textArea.appendChild(responseElement);
+                    ShowChatBubbles();
+                    ScrollToBottom();
+                    DisableEntry();
+                    setTimeout(function () {
+                        AskSymptoms();
+                    }, 900);
+                }
+            } else if (question === 2) {
+                symptoms = parsedResponse;
+                if (parsedResponse === -1) {
+                    // Unknown response
+                    return false;
+                } else {
+                    responseTextElement.innerHTML = parsedResponse;
+                    responseElement.className = "comment user-message symptom-message";
+                    textArea.appendChild(responseElement);
+                    ResetPendingChatBubbles();
+                    ScrollToBottom();
+                    DisableEntry();
+                    if (parsedResponse === "") {
+                        $("#ConfirmNoSymptoms").modal({ closable: false }).modal('show');
+                    } else {
+                        var $clone = $("#SymptomChecklistItemTemplate").clone();
+                        $clone.text(symptoms);
+                        $clone.addClass("selected-symptom");
+                        $("#SymptomChecklist").append($clone);
+
+                        $("#ConfirmSymptoms").modal({ closable: false }).modal('show');
+                    }
+                }
+            }
+        }
+
+        function ResetToSymptoms() {
+            question = 1;
+            symptoms = "";
+            ResetPendingChatBubbles();
+            EnableEntry();
+            $("#ChatArea .symptom-message").remove();
+            var $question3 = $("#question-1");
+            $question3.className = "comment";
+            var $question4 = $("#question-2");
+            $question4.className = "comment hidden";
+            $("#QuestionContainer").append($question4);
+            $("#ButtonEntryContainer").removeClass("hidden");
+            $("#SymptomSelectionContainer").addClass("hidden");
+            $("#Symptoms").dropdown("restore defaults");
+        }
+
+        function IsNegativeScreen() {
+            var symptoms = $("#Symptoms").dropdown("get value");
+            if (symptoms.length === 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function DisableEntry() {
+            $("#ChatCard :input").prop("disabled", true);
+        }
+
+        function EnableEntry() {
+            $("#ChatCard :input").prop("disabled", false);
+        }
+
+        function ResetPendingChatBubbles() {
+            var svg = document.getElementById("response-pending");
+            svg.className = "ui hidden";
+            var textArea = document.getElementById("ChatArea");
+            textArea.appendChild(svg);
+        }
+
+        function ShowChatBubbles() {
+            var svg = document.getElementById("response-pending");
+            var textArea = document.getElementById("ChatArea");
+            textArea.appendChild(svg);
+            svg.className = "ui";
+        }
+
+        function AskSymptoms() {
+            var chatArea = document.getElementById("ChatArea");
+            var chatBody = document.getElementById("ChatBody");
+            var breathingQuestion = document.getElementById("question-2");
+            chatArea.appendChild(breathingQuestion);
+            breathingQuestion.className = "comment";
+            ResetPendingChatBubbles();
+            ScrollToBottom();
+            EnableEntry();
+            EnableSymptomsSelection();
+        }
+
+        function EnableSymptomsSelection() {
+            $("#ButtonEntryContainer").addClass("hidden");
+            $("#SymptomSelectionContainer").removeClass("hidden");
+        }
+
+        function ScrollToBottom() {
+            var chat = document.getElementById("ChatBody");
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function SendData() {
+            $.post('@Url.Action("SaveReport", "Home")', {
+                "ReportId": reportId,
+                "Symptoms": symptoms
+            }, function (data, status) {
+                console.log("Report saved");
+            });
+        }
+    </script>
+}
