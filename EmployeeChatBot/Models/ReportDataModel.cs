@@ -23,6 +23,8 @@ namespace EmployeeChatBot.Models
 
         public bool BodyAches { get; set; }
 
+        public bool LossOfSmell { get; set; }
+
         public bool Allergies { get; set; }
 
         public DateTime CreatedAt { get; set; }
