@@ -9,10 +9,6 @@ namespace EmployeeChatBot.Models
     {
         public string BotImage { get; set; }
 
-        public string UserAdEmail { get; set; }
-
-        public string UserAdName { get; set; }
-
         public string ReportedOn { get; set; }
 
         public bool HasReport { get; set; }
@@ -20,7 +16,5 @@ namespace EmployeeChatBot.Models
         public bool IsPositiveReport { get; set; }
 
         public int ReportId { get; set; }
-
-        public bool IsStudent { get; set; }
     }
 }

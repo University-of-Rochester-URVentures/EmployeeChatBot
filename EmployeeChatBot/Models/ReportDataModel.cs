@@ -11,7 +11,7 @@ namespace EmployeeChatBot.Models
 
         public string Email { get; set; }
 
-        public int UrId { get; set; }
+        public int EmployeeId { get; set; }
 
         public bool Fever { get; set; }
 
@@ -25,15 +25,13 @@ namespace EmployeeChatBot.Models
 
         public bool LossOfSmell { get; set; }
 
-        public bool Allergies { get; set; }
-
         public DateTime CreatedAt { get; set; }
 
         public DateTime? CompletedAt { get; set; }
 
         public bool IsPositive()
         {
-            if (Fever == true || Coughing == true || Breathing == true || (SoreThroat == true && Allergies == false) || BodyAches == true)
+            if (Fever == true || Coughing == true || Breathing == true || SoreThroat == true || BodyAches == true)
                 return true;
             else
                 return false;
@@ -44,10 +42,11 @@ namespace EmployeeChatBot.Models
     {
         internal ReportMap()
         {
-            Map(u => u.UrId).ToColumn("Employee_UrId");
-            Map(u => u.Username).ToColumn("Employee_AdUsername");
-            Map(u => u.Email).ToColumn("Employee_Email");
+            Map(u => u.EmployeeId).ToColumn("EmployeeId");
+            Map(u => u.Username).ToColumn("Username");
+            Map(u => u.Email).ToColumn("Email");
             Map(u => u.Id).ToColumn("Report_ID");
+            Map(u => u.CompletedAt).ToColumn("CompletedAt");
         }
     }
 }

@@ -12,11 +12,9 @@ namespace EmployeeChatBot.Data.Access.Abstraction
 
         Task<ReportDataModel> CheckReport(int reportId);
 
-        Task<ReportDataModel> CreateReport(string username, int urId, string email);
+        Task<ReportDataModel> CreateReport(string username, int empId, string email);
 
-        Task<ReportDataModel> CheckReportByUrId(int urId);
-
-        Task<IList<StudentDataModel>> GetStudents();
+        Task<ReportDataModel> CheckReportByEmployeeId(int empId);
 
         Task<ReportDataModel> CheckReportByEmail(string email);
 

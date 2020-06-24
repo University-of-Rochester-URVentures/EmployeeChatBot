@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[Report_Check2]
+﻿CREATE PROCEDURE [dbo].[Report_CheckByUsername]
 	@Username nvarchar(MAX)
 AS
 BEGIN
@@ -7,7 +7,6 @@ BEGIN
 	
 	SELECT TOP(1) *
 	FROM dbo.Report
-	WHERE Employee_AdUsername = @Username 
-		AND ReportSystem = 1
+	WHERE Username = @Username
 	ORDER BY CreatedAt DESC
 END

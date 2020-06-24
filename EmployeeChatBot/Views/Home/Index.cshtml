@@ -131,7 +131,7 @@
             <div class="header">
                 Do NOT report to work!
                 <br />
-                Call Employee Health at 585-275-6040 and notify your supervisor.
+                Call ??? at ??? and notify your supervisor.
             </div>
             <p>Report generated on <strong id="PositiveReportDate">@DateTime.Today.ToString("D")</strong></p>
         </div>
@@ -148,51 +148,11 @@
             <div class="header">
                 You are clear to go in to work today!
             </div>
-            <p>If your health changes, please call Employee Health at 585-275-6040 to report your symptoms and discuss next steps.</p>
+            <p>If your health changes, please call ??? at ??? to report your symptoms and discuss next steps.</p>
             <p>Report generated on <strong id="NegativeReportDate">@DateTime.Today.ToString("D")</strong></p>
         </div>
         <div class="ui message">
             <p>Do you have another health concern? Please contact your primary care provider (PCP).</p>
-            <p>If you need a PCP, please visit the <a href="https://www.urmc.rochester.edu/primary-care.aspx">UR Medicine Primary Care website</a> or call (585) 784-8891 to schedule a new patient visit with one of our primary care offices. Many sites have same-day visits available!</p>
-        </div>
-    </div>
-</div>
-
-<div class="ui fullscreen modal" id="StudentPositiveScreen">
-    <div class="header">Attention!</div>
-    <div class="content" style="text-align: center;">
-        <div class="ui centered circle-loader" id="StudentPositiveScreenCheckmark">
-            <div class="checkmark draw" id="StudentNegativeMark"></div>
-        </div>
-        <div class="ui error message">
-            <div class="header">
-                Do NOT go on campus!
-                <br />
-                Call University Health at 585-275-2662 and notify your supervisor.
-            </div>
-            <p>
-                University Health Hours <br />
-                Monday – Friday:  TBD
-                <br />
-                Saturday and Sunday: TBD
-            </p>
-            <p>Report generated on <strong id="PositiveReportDate">@DateTime.Today.ToString("D")</strong></p>
-        </div>
-    </div>
-</div>
-
-<div class="ui fullscreen modal" id="StudentNegativeScreen">
-    <div class="header">Thank you!</div>
-    <div class="content" style="text-align: center;">
-        <div class="circle-loader" id="StudentCheckmark">
-            <div class="checkmark draw" id="StudentPositiveCheckmark"></div>
-        </div>
-        <div class="ui positive message">
-            <div class="header">
-                You are clear to go on campus today!
-            </div>
-            <p>If your health changes, please call University Health at 585-275-2662 to report your symptoms and discuss next steps.</p>
-            <p>Report generated on <strong id="NegativeReportDate">@DateTime.Today.ToString("D")</strong></p>
         </div>
     </div>
 </div>
@@ -257,21 +217,7 @@
                 ;
             @if(Model.HasReport) {
                 @if(Model.IsPositiveReport) {
-                    @if(Model.IsStudent)
-                    {
-                        <text>
-                        $('#StudentPositiveScreen')
-                            .modal({
-                                closable: false
-                            }).modal('show');
-                        setTimeout(function () {
-                            $('#StudentPositiveScreenCheckmark').addClass("load-complete load-failure");
-                            $('#StudentNegativeMark').hide();
-                        }, 500);
-                        </text>
-                    } else
-                    {
-                        <text>
+                    <text>
                         $('#PositiveScreen')
                             .modal({
                                 closable: false
@@ -280,25 +226,10 @@
                             $('#PositiveScreenCheckmark').addClass("load-complete load-failure");
                             $('#NegativeMark').hide();
                         }, 500);
-                        </text>
-                    }
+                    </text>
 
                 } else {
-                    @if(Model.IsStudent)
-                    {
-                        <text>
-                        $('#StudentNegativeScreen')
-                            .modal({
-                                closable: false
-                            }).modal('show');
-                        setTimeout(function () {
-                            $('#StudentCheckmark').addClass("load-complete load-success");
-                            $('#StudentPositiveCheckmark').show();
-                        }, 500);
-                        </text>
-                    } else
-                    {
-                        <text>
+                    <text>
                         $('#NegativeScreen')
                             .modal({
                                 closable: false
@@ -307,8 +238,7 @@
                             $('#Checkmark').addClass("load-complete load-success");
                             $('#PositiveCheckmark').show();
                         }, 500);
-                        </text>
-                    }
+                    </text>
 
                 }
             } else {
@@ -319,7 +249,7 @@
                 </text>
             }
 
-            
+
             var yesOption = document.getElementById("YesAnswer");
             yesOption.addEventListener("click", function (e) {
                 HandleEntry(1);
@@ -343,58 +273,26 @@
             $submitReportButtons.click(function (e) {
                 if (IsNegativeScreen()) {
                     SendData();
-                    @if(Model.IsStudent)
-                    {
-                        <text>
-                        $('#StudentNegativeScreen')
-                            .modal({
-                                closable: true
-                            }).modal('show');
-                        setTimeout(function () {
-                            $('#StudentCheckmark').addClass("load-complete load-success");
-                            $('#StudentPositiveCheckmark').show();
-                        }, 500);
-                        </text>
-                    } else {
-                        <text>
-                        $('#NegativeScreen')
-                            .modal({
-                                closable: true
-                            }).modal('show');
-                        setTimeout(function () {
-                            $('#Checkmark').addClass("load-complete load-success");
-                            $('#PositiveCheckmark').show();
-                        }, 500);
-                        </text>
-                    }
+                    $('#NegativeScreen')
+                        .modal({
+                            closable: true
+                        }).modal('show');
+                    setTimeout(function () {
+                        $('#Checkmark').addClass("load-complete load-success");
+                        $('#PositiveCheckmark').show();
+                    }, 500);
 
                 } else {
                     SendData();
-                    @if(Model.IsStudent)
-                    {
-                        <text>
-                            $('#StudentPositiveScreen')
-                            .modal({
-                                closable: true
-                            }).modal('show');
-                            setTimeout(function () {
-                                $('#StudentPositiveScreenCheckmark').addClass("load-complete load-failure");
-                                $('#StudentNegativeMark').hide();
-                            }, 500);
-                        </text>
-                    } else {
-                        <text>
-                            $('#PositiveScreen')
-                            .modal({
-                                closable: true
-                            }).modal('show');
-                            setTimeout(function () {
-                                $('#PositiveScreenCheckmark').addClass("load-complete load-failure");
-                                $('#NegativeMark').hide();
-                            }, 500);
-                        </text>
-                    }
-                    
+                    $('#PositiveScreen')
+                        .modal({
+                            closable: true
+                        }).modal('show');
+                    setTimeout(function () {
+                        $('#PositiveScreenCheckmark').addClass("load-complete load-failure");
+                        $('#NegativeMark').hide();
+                    }, 500);
+
                 }
             });
 
@@ -424,7 +322,7 @@
                     userResponseValue = "No";
                 }
             }
-            
+
             var textArea = document.getElementById("ChatArea");
             var userResponse = document.getElementById("UserMessageTemplate");
             var responseElement = userResponse.cloneNode(true);

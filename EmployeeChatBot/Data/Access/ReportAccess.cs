@@ -23,7 +23,7 @@ namespace EmployeeChatBot.Data.Access
 
             await
                 conn.ExecuteAsync(
-                    "[dbo].[Report_Save5]",
+                    "[dbo].[Report_Save]",
                     new
                     {
                         ReportId = reportId,
@@ -36,17 +36,6 @@ namespace EmployeeChatBot.Data.Access
                         Allergies = allergies
                     },
                     commandType: CommandType.StoredProcedure);
-        }
-
-        public async Task<IList<StudentDataModel>> GetStudents()
-        {
-            using IDbConnection conn = DbConnection;
-            conn.Open();
-
-            var results = await conn.QueryAsync<StudentDataModel>("[dbo].[Student_GetAll]", null, commandType: CommandType.StoredProcedure);
-
-            return
-                results.ToList();
         }
 
         public async Task<ReportDataModel> CheckReportByEmail(string email)
@@ -66,7 +55,7 @@ namespace EmployeeChatBot.Data.Access
             return val;
         }
 
-        public async Task<ReportDataModel> CreateReport(string username, int urId, string email)
+        public async Task<ReportDataModel> CreateReport(string username, int empId, string email)
         {
             using IDbConnection conn = DbConnection;
             conn.Open();
@@ -78,24 +67,24 @@ namespace EmployeeChatBot.Data.Access
                     {
                         Username = username,
                         Email = email,
-                        UrId = urId,
+                        EmployeeId = empId,
                     },
                     commandType: CommandType.StoredProcedure);
 
             return retVal;
         }
 
-        public async Task<ReportDataModel> CheckReportByUrId(int urId)
+        public async Task<ReportDataModel> CheckReportByEmployeeId(int empId)
         {
             using IDbConnection conn = DbConnection;
             conn.Open();
 
             var reports = await
                 conn.QueryFirstOrDefaultAsync<ReportDataModel>(
-                    "[dbo].[Report_CheckByurId]",
+                    "[dbo].[Report_CheckByEmployeeId]",
                     new
                     {
-                        UrId = urId
+                        EmployeeId = empId
                     },
                     commandType: CommandType.StoredProcedure);
 
@@ -103,6 +92,10 @@ namespace EmployeeChatBot.Data.Access
                 reports;
         }
 
+        // This is an optional table that we utilized in order to track individuals who had login failures.
+        // We would follow up with them to ensure their accounts were setup properly and they could take the chatbot daily
+        // The Domain indicated the issue with the account and what account they had (UR vs URMC Active Directory in our case)
+        // Username was the username they attempted to use.
         public async Task LogFailedLogin(string username, string domain)
         {
             using IDbConnection conn = DbConnection;

@@ -40,7 +40,6 @@ namespace EmployeeChatBot
              config =>
              {
                  config.AddMap(new ReportMap());
-                 config.AddMap(new StudentMap());
              });
         }
 

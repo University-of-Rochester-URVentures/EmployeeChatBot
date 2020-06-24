@@ -67,14 +67,14 @@ namespace EmployeeChatBot.Controllers
             name = "";
             id = 0;
 #endif
+            // At this point you can optionally choose to check if the user has a report for the day by looking up their report by EmployeeId
+            // You can then set the HasReport flag on the VM to display the previous report for the day
 
             ReportDataModel newReport = await _reportAccess.CreateReport(user, id, email);
 
             IndexViewModel indexViewModel = new IndexViewModel
             {
-                ReportId = newReport.Id,
-                UserAdEmail = email,
-                UserAdName = name,
+                ReportId = newReport.Id
             };
 
             return RedirectToAction("Index", indexViewModel);
@@ -110,6 +110,10 @@ namespace EmployeeChatBot.Controllers
                     break;
             }
             model.BotImage = chatBotImage;
+
+            // It is possible for a person to bookmark the post-sign in index page. The following options are available
+            // 1) Secure the site using an Identity system and then put this action (and Save) under the Authorize tag
+            // 2) Check the report ID here and if it has already been completed redirect them back to the login page
 
             return View(model);
         }
