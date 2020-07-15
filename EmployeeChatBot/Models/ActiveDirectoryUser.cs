@@ -17,8 +17,6 @@ namespace URMC.ActiveDirectory {
 
         public string Mail { get; set; }
 
-        public string ThumbnailPhoto { get; set; }
-
-        public string UrID { get; set; }
+        public string EmployeeId { get; set; }
     }
 }

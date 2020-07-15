@@ -1,9 +1,11 @@
-﻿using EmployeeChatBot.Data.Access.Abstraction;
+﻿using EmployeeChatBot.ActiveDirectory;
+using EmployeeChatBot.Data.Access.Abstraction;
 using EmployeeChatBot.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using URMC.ActiveDirectory;
 
 namespace EmployeeChatBot.Controllers
 {
@@ -55,22 +57,26 @@ namespace EmployeeChatBot.Controllers
         public async Task<IActionResult> Login(UserModel model)
         {
             //Login Logic here
+            ActiveDirectoryUser user = null;
+            IndexViewModel toRet = new IndexViewModel();
+            // Login here!
+            URMCDirectory directory = new URMCDirectory("URL", 636, "DirectoryClasses", "ServiceAccountName", "ServiceAccountPassword");
+            try
+            {
+                user = directory.AuthenticateAsync(new Credentials() { Username = model.Username, Password = model.Password }).GetAwaiter().GetResult();
+            }
+            catch (UnauthorizedADAccessException e)
+            {
+                LoginViewModel errorModel = new LoginViewModel();
+                errorModel.FailedLogin = true;
+                return View(errorModel);
 
-            string email = string.Empty;
-            string user = string.Empty;
-            string name = string.Empty;
-            int id = 0;
-#if DEBUG
-            //Remove when login logic is available
-            email = "";
-            user = "";
-            name = "";
-            id = 0;
-#endif
+            }
+
             // At this point you can optionally choose to check if the user has a report for the day by looking up their report by EmployeeId
             // You can then set the HasReport flag on the VM to display the previous report for the day
 
-            ReportDataModel newReport = await _reportAccess.CreateReport(user, id, email);
+            ReportDataModel newReport = await _reportAccess.CreateReport(user.Username, Convert.ToInt32(user.EmployeeId), user.Mail);
 
             IndexViewModel indexViewModel = new IndexViewModel
             {
