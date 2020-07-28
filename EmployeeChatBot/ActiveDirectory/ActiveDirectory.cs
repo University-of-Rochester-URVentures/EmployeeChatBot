@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 using EmployeeChatBot.Models;
 
 namespace URMC.ActiveDirectory {
-    public class URMCDirectory: IURMCDirectory {
+    public class ActiveDirectory: IActiveDirectory {
         private readonly string _fulldomain;
         private readonly int _port;
         private readonly string _searchBase;
         private readonly Credentials _serviceUser;
 
-        public URMCDirectory(string fulldomain, int port, string searchBase, string username, string password)
+        public ActiveDirectory(string fulldomain, int port, string searchBase, string username, string password)
         {
             _fulldomain = fulldomain; _port = port; _searchBase = searchBase;
             if (!String.IsNullOrWhiteSpace(username) && password != null)
@@ -20,11 +20,11 @@ namespace URMC.ActiveDirectory {
             else _serviceUser = null;
         }
 
-        public IURMCDirectorySearch DirectorySearch(Credentials credentials = null)
+        public IActiveDirectorySearch DirectorySearch(Credentials credentials = null)
         {
             Credentials _credentials = credentials ?? _serviceUser;
             if (_credentials == null) throw new UnauthorizedAccessException();
-            return new URMCDirectorySearch(_credentials, _fulldomain, _port, _searchBase, _serviceUser ?? credentials);
+            return new ActiveDirectorySearch(_credentials, _fulldomain, _port, _searchBase, _serviceUser ?? credentials);
         }
 
         public ActiveDirectoryUser GetUserByUsername(string username, string password = null)

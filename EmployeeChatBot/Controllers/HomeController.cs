@@ -60,7 +60,7 @@ namespace EmployeeChatBot.Controllers
             ActiveDirectoryUser user = null;
             IndexViewModel toRet = new IndexViewModel();
             // Login here!
-            URMCDirectory directory = new URMCDirectory("URL", 636, "DirectoryClasses", "ServiceAccountName", "ServiceAccountPassword");
+            URMC.ActiveDirectory.ActiveDirectory directory = new URMC.ActiveDirectory.ActiveDirectory("URL", 636, "DirectoryClasses", "ServiceAccountName", "ServiceAccountPassword");
             try
             {
                 user = directory.AuthenticateAsync(new Credentials() { Username = model.Username, Password = model.Password }).GetAwaiter().GetResult();

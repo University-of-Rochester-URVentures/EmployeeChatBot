@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace URMC.ActiveDirectory {
-    public interface IURMCDirectory {
+    public interface IActiveDirectory {
         /// <summary>
         /// for bulk lookups use the returned object that does the same but keeps LDAP connection open
         /// </summary>
         /// <param name="credentials">credentials to connect to LDAP, null to use default credentials</param>
         /// <returns></returns>
-        IURMCDirectorySearch DirectorySearch(Credentials credentials = null);
+        IActiveDirectorySearch DirectorySearch(Credentials credentials = null);
 
         /// <summary>
         /// find user record using username

@@ -12,14 +12,14 @@ using System.DirectoryServices.AccountManagement;
 using EmployeeChatBot.ActiveDirectory;
 
 namespace URMC.ActiveDirectory {
-    public class URMCDirectorySearch : IURMCDirectorySearch {
+    public class ActiveDirectorySearch : IActiveDirectorySearch {
         private readonly string _fulldomain;
         private readonly string _searchBase;
         private readonly int _port;
         private LdapConnection ldapConnection;
         private ActiveDirectoryUser user;
 
-        public URMCDirectorySearch(Credentials credentials, string fulldomain, int port, string searchbase, Credentials _serviceUser)
+        public ActiveDirectorySearch(Credentials credentials, string fulldomain, int port, string searchbase, Credentials _serviceUser)
         {
             user = new ActiveDirectoryUser();
             using (var context = new PrincipalContext(ContextType.Domain, fulldomain, _serviceUser.Username, _serviceUser.Password))

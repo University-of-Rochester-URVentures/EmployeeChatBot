@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace URMC.ActiveDirectory {
-    public interface IURMCDirectorySearch: IDisposable {
+    public interface IActiveDirectorySearch: IDisposable {
 
         /// <summary>
         /// get user record for authenticated user
