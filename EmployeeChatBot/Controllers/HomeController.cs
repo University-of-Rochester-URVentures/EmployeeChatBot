@@ -65,7 +65,7 @@ namespace EmployeeChatBot.Controllers
             {
                 user = directory.AuthenticateAsync(new Credentials() { Username = model.Username, Password = model.Password }).GetAwaiter().GetResult();
             }
-            catch (UnauthorizedADAccessException e)
+            catch (UnauthorizedADAccessException)
             {
                 LoginViewModel errorModel = new LoginViewModel();
                 errorModel.FailedLogin = true;

@@ -13,9 +13,6 @@ using EmployeeChatBot.ActiveDirectory;
 
 namespace URMC.ActiveDirectory {
     public class ActiveDirectorySearch : IActiveDirectorySearch {
-        private readonly string _fulldomain;
-        private readonly string _searchBase;
-        private readonly int _port;
         private LdapConnection ldapConnection;
         private ActiveDirectoryUser user;
 
