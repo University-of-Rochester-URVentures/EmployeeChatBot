@@ -16,7 +16,7 @@ namespace EmployeeChatBot.Data.Access
         {
         }
 
-        public async Task SaveReport(int reportId, bool fever, bool coughing, bool breathing, bool soreThroat, bool bodyAches, bool allergies, bool lossOfSmell)
+        public async Task SaveReport(int reportId, bool fever, bool coughing, bool breathing, bool soreThroat, bool bodyAches, bool lossOfSmell)
         {
             using IDbConnection conn = DbConnection;
             conn.Open();
@@ -32,8 +32,7 @@ namespace EmployeeChatBot.Data.Access
                         Coughing = coughing,
                         SoreThroat = soreThroat,
                         BodyAches = bodyAches,
-                        LossOfSmell = lossOfSmell,
-                        Allergies = allergies
+                        LossOfSmell = lossOfSmell
                     },
                     commandType: CommandType.StoredProcedure);
         }

@@ -8,7 +8,7 @@ namespace EmployeeChatBot.Data.Access.Abstraction
 {
     public interface IReportAccess
     {
-        Task SaveReport(int reportId, bool fever, bool coughing, bool breathing, bool soreThroat, bool bodyAches, bool allergies, bool lossOfSmell);
+        Task SaveReport(int reportId, bool fever, bool coughing, bool breathing, bool soreThroat, bool bodyAches, bool lossOfSmell);
 
         Task<ReportDataModel> CheckReport(int reportId);
 

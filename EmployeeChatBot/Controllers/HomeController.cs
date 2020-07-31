@@ -41,7 +41,7 @@ namespace EmployeeChatBot.Controllers
             var lossOfSmell = model.Symptoms.Contains("Loss of taste or smell");
             await _reportAccess.SaveReport(reportId, fever,
                 coughing, breathing, soreThroat,
-                bodyAches, false, lossOfSmell);
+                bodyAches, lossOfSmell);
 
             return Ok();
         }
